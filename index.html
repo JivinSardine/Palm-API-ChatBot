@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-<title>HubPaLM</title>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>HubPaLM</title>
   <style>
     body {
       margin: 0;
@@ -42,7 +44,7 @@
       position: absolute;
       background-color: #007bff;
       min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
       z-index: 4;
       right: 0;
       max-width: calc(100vw - 10px);
@@ -79,13 +81,16 @@
       border: 1px solid #ddd;
       padding: 10px;
       margin-bottom: 10px;
-      max-height: calc(100vh - 100px); /* Adjust the height as per your needs */
+      max-height: calc(100vh - 100px);
+      /* Adjust the height as per your needs */
       overflow-y: scroll;
       word-wrap: break-word;
-      width: calc(100% - 22px); /* Adjust the width by accounting for the border and padding */
+      width: calc(100% - 22px);
+      /* Adjust the width by accounting for the border and padding */
     }
 
-    .user, .bot {
+    .user,
+    .bot {
       margin-bottom: 5px;
       word-wrap: break-word;
       padding: 8px;
@@ -182,42 +187,51 @@
     #close-button:hover {
       background-color: #999;
     }
-    
-   .typing-indicator {
-        display: inline-block;
-        animation: typing 1s infinite;
-        font-size: 24px;
-        color: #aaa;
-        margin-left: 5px;
-      }
 
-   .timestamp {
-        font-size: 12px;
-        color: #999;
-        margin-top: 4px;
-      } 
+    .typing-indicator {
+      display: inline-block;
+      animation: typing 1s infinite;
+      font-size: 24px;
+      color: #aaa;
+      margin-left: 5px;
+    }
+
+    .timestamp {
+      font-size: 12px;
+      color: #999;
+      margin-top: 4px;
+    }
 
     @keyframes typing {
-        0% { opacity: 0.3; }
-        50% { opacity: 1; }
-        100% { opacity: 0.3; }
+      0% {
+        opacity: 0.3;
       }
-</style>
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0.3;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <!-- Add the navbar -->
   <div class="navbar">
-    <div class="navbar-title title">PaLM</div>
+    <div class="navbar-title title">HubPaLM</div>
     <div class="menu-dropdown">
       <button class="dropbtn">&#9776</button>
       <div class="menu-content">
         <button id="settings-button">Settings</button>
         <button id="download-button">Download</button>
         <button id="clear-button">Clear Conversation</button>
-      <a href="https://github.com/JivinSardine/Palm-API-ChatBot" target="_blank" rel="noopener noreferrer">
-        <button>GitHub Repository</button>
-      </a>
-    </div>
+        <a href="https://github.com/JivinSardine/Palm-API-ChatBot" target="_blank" rel="noopener noreferrer">
+          <button>GitHub Repository</button>
+        </a>
+      </div>
     </div>
   </div>
 
@@ -236,7 +250,8 @@
     <p>Please enter your API key:</p>
     <input type="text" id="api-key-input">
     <button id="save-button">Save</button>
-    <p>To get an API key, please visit the <a href="https://makersuite.google.com/" target="_blank" rel="noopener noreferrer">Google MakeSuite website</a>.</p>
+    <p>To get an API key, please visit the <a href="https://makersuite.google.com/" target="_blank"
+        rel="noopener noreferrer">Google MakeSuite website</a>.</p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -355,7 +370,7 @@
       // Add a horizontal line after the timestamp
       const lineElement = document.createElement('hr');
       chatContainer.appendChild(lineElement);
-  
+
       // Scroll to the bottom of the chat container
       chatContainer.scrollTop = chatContainer.scrollHeight;
       window.scrollTo(0, document.body.scrollHeight);
@@ -415,10 +430,10 @@
       };
 
       const typingIndicator = document.createElement('span');
-        typingIndicator.classList.add('typing-indicator');
-        typingIndicator.innerText = '...';
-        chatContainer.appendChild(typingIndicator);
-      
+      typingIndicator.classList.add('typing-indicator');
+      typingIndicator.innerText = '...';
+      chatContainer.appendChild(typingIndicator);
+
       fetch(requestUrl, {
         method: 'POST',
         headers: {
@@ -426,27 +441,27 @@
         },
         body: JSON.stringify(requestBody)
       })
-      .then(response => response.json())
-      .then(data => {
-      chatContainer.removeChild(typingIndicator);
-        const botResponse = data.candidates[0].content; // Extract bot's response from candidates array
+        .then(response => response.json())
+        .then(data => {
+          chatContainer.removeChild(typingIndicator);
+          const botResponse = data.candidates[0].content; // Extract bot's response from candidates array
 
-        const btimestamp = new Date().toLocaleTimeString();
+          const btimestamp = new Date().toLocaleTimeString();
 
-        // Display bot response in the chat container
-        displayMessage(botResponse, 'bot', btimestamp);
+          // Display bot response in the chat container
+          displayMessage(botResponse, 'bot', btimestamp);
 
-        // Add bot response to conversation history
-        conversationHistory.push([botResponse, 'bot', btimestamp]);
-        saveConversationHistory();
-      })
-      .catch(error => {
-        chatContainer.removeChild(typingIndicator);
-        console.error('Error:', error);
-        displayMessage('An error occurred.', 'bot');
-      });
+          // Add bot response to conversation history
+          conversationHistory.push([botResponse, 'bot', btimestamp]);
+          saveConversationHistory();
+        })
+        .catch(error => {
+          chatContainer.removeChild(typingIndicator);
+          console.error('Error:', error);
+          displayMessage('An error occurred.', 'bot');
+        });
     }
-    
+
     // Function to convert conversation history to a downloadable file
     function downloadConversationHistory() {
       const formattedHistory = conversationHistory.map(([message, sender, timestamp]) => {
@@ -466,4 +481,5 @@
     });
   </script>
 </body>
+
 </html>
